@@ -107,6 +107,10 @@ public class View {
             showStage(2);
             Logger.info("Second Player Won");
         }
+        if(contoller.isFull(grid) == true) {
+            showStage(0);
+            Logger.info("It's a draw better luck next time");
+        }
     }
 
     /**
@@ -213,7 +217,12 @@ public class View {
         Stage stage= new Stage();
         VBox comp = new VBox();
         Label label = new Label();
-        label.setText("Congratulations for winning player " + player);
+        if(player == 0) {
+            label.setText("Congratulations it's a draw");
+        }
+        else {
+            label.setText("Congratulations for winning player " + player);
+        }
         Button exit = new Button();
         exit.setText("Exit");
         EventHandler<ActionEvent> backToMenu= new EventHandler<ActionEvent>() {

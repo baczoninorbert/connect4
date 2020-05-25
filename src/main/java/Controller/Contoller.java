@@ -90,6 +90,24 @@ public class Contoller {
     }
 
     /**
+     * This function checks if the gaming board is full
+     * @param grid the data of the game
+     * @return true if it's full and false if it's not
+     */
+    public static boolean isFull(Grid grid) {
+        int full = 0;
+        int[][]board = grid.getBoard();
+        for(int i = 0; i < ROWS; i++) {
+            for(int j = 0; j < COLUMNS; j++) {
+                full = full + board[i][j];
+            }
+        }
+        if(full == 63)
+            return true;
+        return false;
+    }
+
+    /**
      * This function saves the board and the current players index in a json file format
      * @param grid the Grid that we will save
      */
