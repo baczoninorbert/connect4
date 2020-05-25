@@ -16,9 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import model.Grid;
 
@@ -41,18 +39,27 @@ public class View {
     private static final double cellHeight = (double) canvasHeight / ROWS;
     private static final double cellWidth = (double) canvasWidth / COLUMNS;
     private static GraphicsContext gc;
+
+    /**
+     * This function displays the gaming board
+     * @param grid is used for reading it's data
+     * @return the scene with the gaming board
+     */
     public static Parent createContent(Grid grid) {
         Pane pane = new GridPane();
         Canvas canvas = new Canvas(canvasWidth, canvasHeight);
         gc = canvas.getGraphicsContext2D();
         drawBoard(gc, grid);
         pane.getChildren().addAll(canvas);
-        //Shape gridShape = makeGrid(grid);
         pane.getChildren().addAll(makeColumns(grid));
-
         return pane;
     }
 
+    /**
+     * This function draws the boards outline and the discs
+     * @param gc the layout where the function draws
+     * @param grid the data on which upon it draws the discs
+     */
     private static void drawBoard(GraphicsContext gc, Grid grid) {
 
         gc.setFill(Color.rgb(25, 130, 255));
@@ -89,6 +96,10 @@ public class View {
 
     }
 
+    /**
+     * This function redraws the canvas after every disc insertment and also checks if someone won
+     * @param grid the data of the game
+     */
     private static void repaintCanvas(Grid grid) {
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         drawBoard(gc,grid);
@@ -97,45 +108,12 @@ public class View {
         if(contoller.areFourConnected(grid.getBoard(),2))
             showStage(2);
     }
-    private Shape makeGrid(Grid grid) {
-        Shape shape = new Rectangle((COLUMNS + 1) * TILE_SIZE, (ROWS + 1) * TILE_SIZE);
-        int[][]board = grid.getBoard();
-        for (int y = 0; y < ROWS; y++) {
-            for (int x = 0; x < COLUMNS; x++) {
-                Circle circle = new Circle(TILE_SIZE / 2);
-                circle.setCenterX(TILE_SIZE / 2);
-                circle.setCenterY(TILE_SIZE / 2);
-                circle.setTranslateX(x * (TILE_SIZE + 5) + TILE_SIZE / 4);
-                circle.setTranslateY(y * (TILE_SIZE + 5) + TILE_SIZE / 4);
 
-                if(board[x][y] == 0)
-                    circle.setFill(Color.WHITE);
-
-                if(board[x][y] == 1)
-                    circle.setFill(Color.RED);
-
-                if(board[x][y] == 2)
-                    circle.setFill(Color.BLUE);
-                System.out.println(circle.getFill());
-
-                shape = Shape.subtract(circle, shape);
-            }
-        }
-        return shape;
-    }
-
-
-    public void draw(Grid grid) {
-        for(int i = ROWS - 1 ; i >= 0; i--) {
-            for(int j = 0; j < COLUMNS; j++) {
-                if(grid.getBoard()[j][i] == 0) {
-
-                }
-            }
-        }
-
-    }
-
+    /**
+     * This function creates clickable columns over the actual columns and then it inserts the dics if the player clicks
+     * @param grid the data of the game
+     * @return rectangles for each column
+     */
     private static List<Rectangle> makeColumns(Grid grid) {
         List<Rectangle> list = new ArrayList<>();
 
@@ -152,7 +130,6 @@ public class View {
             rect.setOnMouseClicked(e -> {
                 repaintCanvas(contoller.addDisc(grid, column));
 
-                System.out.println("nyugger" + column);
                 for(int j = 0; j < 7; j++) {
                     for (int i = 0; i < 6; i++)
                         System.out.print(grid.getBoard()[i][j] + " ");
@@ -167,13 +144,9 @@ public class View {
         return list;
     }
 
-    public void winnerMessage(int player) {
-        Stage stage = new Stage();
-        VBox vBox = new VBox();
-
-
-    }
-
+    /**
+     * This function creates the menu
+     */
     public static void createMenu() {
         Stage stage = new Stage();
         VBox vbox = new VBox();
@@ -223,6 +196,10 @@ public class View {
 
     }
 
+    /**
+     * This function displays a stage with a congratulating message to the winning player
+     * @param player the index of the player
+     */
     public static void showStage(int player){
         Stage stage= new Stage();
         VBox comp = new VBox();

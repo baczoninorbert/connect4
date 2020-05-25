@@ -84,8 +84,8 @@ public class Contoller {
     }
 
     /**
-     * This function saves the board and the current players index
-     * @param grid return the
+     * This function saves the board and the current players index in a json file format
+     * @param grid the Grid that we will save
      */
     public static void saveGame(Grid grid) {
         Gson gson = new GsonBuilder().create();
@@ -97,6 +97,10 @@ public class Contoller {
         gson.toJson(grid);
     }
 
+    /**
+     * This function loads the game from a JSON file
+     * @return the board with the current player index
+     */
     public static Grid loadGame() {
         Gson gson = new Gson();
         try {

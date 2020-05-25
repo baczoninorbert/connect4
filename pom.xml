@@ -9,6 +9,7 @@
     <version>1</version>
     <properties>
         <exec.mainClass>Launcher.Launcher</exec.mainClass>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
         <plugins>
