@@ -215,6 +215,7 @@ public class View {
         Label label = new Label();
         label.setText("Congratulations for winning player " + player);
         Button exit = new Button();
+        exit.setText("Exit");
         EventHandler<ActionEvent> backToMenu= new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

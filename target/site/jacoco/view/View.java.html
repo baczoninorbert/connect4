@@ -11,7 +11,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -28,20 +27,15 @@ import java.util.List;
 /**
  * Contains the functions that load displays
  */
-<span class="nc" id="L31">public class View {</span>
+<span class="nc" id="L30">public class View {</span>
 
-<span class="nc" id="L33">    private Pane discRoot = new Pane();</span>
-<span class="nc" id="L34">    private static int COLUMNS = 7;</span>
-<span class="nc" id="L35">    private static int ROWS = 6;</span>
-<span class="nc" id="L36">    private int TILE_SIZE = 80;</span>
-<span class="nc" id="L37">    private static Contoller contoller = new Contoller();</span>
-    private Image imageEmpty;
-    private Image imagePlayer1;
-    private Image imagePlayer2;
+<span class="nc" id="L32">    private static int COLUMNS = 7;</span>
+<span class="nc" id="L33">    private static int ROWS = 6;</span>
+<span class="nc" id="L34">    private static Contoller contoller = new Contoller();</span>
     private static final int canvasHeight = 600;
     private static final int canvasWidth = 700;
-<span class="nc" id="L43">    private static final double cellHeight = (double) canvasHeight / ROWS;</span>
-<span class="nc" id="L44">    private static final double cellWidth = (double) canvasWidth / COLUMNS;</span>
+<span class="nc" id="L37">    private static final double cellHeight = (double) canvasHeight / ROWS;</span>
+<span class="nc" id="L38">    private static final double cellWidth = (double) canvasWidth / COLUMNS;</span>
     private static GraphicsContext gc;
 
     /**
@@ -50,13 +44,13 @@ import java.util.List;
      * @return the scene with the gaming board
      */
     public static Parent createContent(Grid grid) {
-<span class="nc" id="L53">        Pane pane = new GridPane();</span>
-<span class="nc" id="L54">        Canvas canvas = new Canvas(canvasWidth, canvasHeight);</span>
-<span class="nc" id="L55">        gc = canvas.getGraphicsContext2D();</span>
-<span class="nc" id="L56">        drawBoard(gc, grid);</span>
-<span class="nc" id="L57">        pane.getChildren().addAll(canvas);</span>
-<span class="nc" id="L58">        pane.getChildren().addAll(makeColumns(grid));</span>
-<span class="nc" id="L59">        return pane;</span>
+<span class="nc" id="L47">        Pane pane = new GridPane();</span>
+<span class="nc" id="L48">        Canvas canvas = new Canvas(canvasWidth, canvasHeight);</span>
+<span class="nc" id="L49">        gc = canvas.getGraphicsContext2D();</span>
+<span class="nc" id="L50">        drawBoard(gc, grid);</span>
+<span class="nc" id="L51">        pane.getChildren().addAll(canvas);</span>
+<span class="nc" id="L52">        pane.getChildren().addAll(makeColumns(grid));</span>
+<span class="nc" id="L53">        return pane;</span>
     }
 
     /**
@@ -66,60 +60,54 @@ import java.util.List;
      */
     private static void drawBoard(GraphicsContext gc, Grid grid) {
 
-<span class="nc" id="L69">        gc.setFill(Color.rgb(25, 130, 255));</span>
-<span class="nc" id="L70">        gc.fillRect(0, 0, canvasWidth, canvasHeight);</span>
-
-<span class="nc" id="L72">        gc.setFill(Color.BLACK);</span>
-
-<span class="nc bnc" id="L74" title="All 2 branches missed.">        for(int i = ROWS - 1; i &gt;= 0; i--) {</span>
-<span class="nc" id="L75">            gc.strokeLine(0, i * cellHeight, canvasWidth, i * cellHeight);</span>
+<span class="nc" id="L63">        gc.setFill(Color.rgb(25, 130, 255));</span>
+<span class="nc" id="L64">        gc.fillRect(0, 0, canvasWidth, canvasHeight);</span>
+<span class="nc" id="L65">        gc.setFill(Color.BLACK);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        for(int i = ROWS - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L67">            gc.strokeLine(0, i * cellHeight, canvasWidth, i * cellHeight);</span>
         }
-
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        for(int i = 0; i &lt;= COLUMNS; i++) {</span>
-<span class="nc" id="L79">            gc.strokeLine(i * cellWidth, 0, i * cellWidth, canvasHeight);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for(int i = 0; i &lt;= COLUMNS; i++) {</span>
+<span class="nc" id="L70">            gc.strokeLine(i * cellWidth, 0, i * cellWidth, canvasHeight);</span>
         }
-
-<span class="nc" id="L82">        Logger.info(&quot;Outlines drawn&quot;);</span>
-<span class="nc" id="L83">        int offset = 3;</span>
-<span class="nc" id="L84">        int board[][] = grid.getBoard();</span>
-
-<span class="nc bnc" id="L86" title="All 2 branches missed.">        for(int r = 0; r &lt; ROWS; r++) {</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">            for(int c = 0; c &lt; COLUMNS ; c++) {</span>
-
-<span class="nc bnc" id="L89" title="All 2 branches missed.">                if(board[r][c] == 1) {</span>
-<span class="nc" id="L90">                    Logger.info(&quot;First player cell located coloring it red&quot;);</span>
-<span class="nc" id="L91">                    gc.setFill(Color.RED);</span>
-<span class="nc" id="L92">                    gc.fillOval(c * cellHeight, r * cellWidth, cellWidth - offset, cellHeight - offset);</span>
+<span class="nc" id="L72">        Logger.info(&quot;Outlines drawn&quot;);</span>
+<span class="nc" id="L73">        int offset = 3;</span>
+<span class="nc" id="L74">        int board[][] = grid.getBoard();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for(int r = 0; r &lt; ROWS; r++) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            for(int c = 0; c &lt; COLUMNS ; c++) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                if(board[r][c] == 1) {</span>
+<span class="nc" id="L78">                    Logger.info(&quot;First player cell located coloring it red&quot;);</span>
+<span class="nc" id="L79">                    gc.setFill(Color.RED);</span>
+<span class="nc" id="L80">                    gc.fillOval(c * cellHeight, r * cellWidth, cellWidth - offset, cellHeight - offset);</span>
                 }
 
-<span class="nc bnc" id="L95" title="All 2 branches missed.">                if(board[r][c] == 2) {</span>
-<span class="nc" id="L96">                    Logger.info(&quot;Second player cell located coloring it yellow&quot;);</span>
-<span class="nc" id="L97">                    gc.setFill(Color.YELLOW);</span>
-<span class="nc" id="L98">                    gc.fillOval(c * cellHeight, r * cellWidth, cellWidth - offset, cellHeight - offset);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                if(board[r][c] == 2) {</span>
+<span class="nc" id="L84">                    Logger.info(&quot;Second player cell located coloring it yellow&quot;);</span>
+<span class="nc" id="L85">                    gc.setFill(Color.YELLOW);</span>
+<span class="nc" id="L86">                    gc.fillOval(c * cellHeight, r * cellWidth, cellWidth - offset, cellHeight - offset);</span>
                 }
 
             }
         }
 
-<span class="nc" id="L104">    }</span>
+<span class="nc" id="L92">    }</span>
 
     /**
      * This function redraws the canvas after every disc insertment and also checks if someone won
      * @param grid the data of the game
      */
     private static void repaintCanvas(Grid grid) {
-<span class="nc" id="L111">        gc.clearRect(0, 0, canvasWidth, canvasHeight);</span>
-<span class="nc" id="L112">        drawBoard(gc,grid);</span>
-<span class="nc" id="L113">        Logger.info(&quot;Checking if someone won&quot;);</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">        if(contoller.areFourConnected(grid.getBoard(),1)) {</span>
-<span class="nc" id="L115">            showStage(1);</span>
-<span class="nc" id="L116">            Logger.info(&quot;First Player Won&quot;);</span>
+<span class="nc" id="L99">        gc.clearRect(0, 0, canvasWidth, canvasHeight);</span>
+<span class="nc" id="L100">        drawBoard(gc,grid);</span>
+<span class="nc" id="L101">        Logger.info(&quot;Checking if someone won&quot;);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if(contoller.areFourConnected(grid.getBoard(),1)) {</span>
+<span class="nc" id="L103">            showStage(1);</span>
+<span class="nc" id="L104">            Logger.info(&quot;First Player Won&quot;);</span>
         }
-<span class="nc bnc" id="L118" title="All 2 branches missed.">        if(contoller.areFourConnected(grid.getBoard(),2)) {</span>
-<span class="nc" id="L119">            showStage(2);</span>
-<span class="nc" id="L120">            Logger.info(&quot;Second Player Won&quot;);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if(contoller.areFourConnected(grid.getBoard(),2)) {</span>
+<span class="nc" id="L107">            showStage(2);</span>
+<span class="nc" id="L108">            Logger.info(&quot;Second Player Won&quot;);</span>
         }
-<span class="nc" id="L122">    }</span>
+<span class="nc" id="L110">    }</span>
 
     /**
      * This function creates clickable columns over the actual columns and then it inserts the dics if the player clicks
@@ -127,122 +115,123 @@ import java.util.List;
      * @return rectangles for each column
      */
     private static List&lt;Rectangle&gt; makeColumns(Grid grid) {
-<span class="nc" id="L130">        List&lt;Rectangle&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L118">        List&lt;Rectangle&gt; list = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        for (int x = 0; x &lt; COLUMNS; x++) {</span>
-<span class="nc" id="L133">            Rectangle rect = new Rectangle(cellWidth, (ROWS) * cellHeight);</span>
-<span class="nc" id="L134">            rect.setTranslateX(x * (cellWidth));</span>
-<span class="nc" id="L135">            rect.setFill(Color.TRANSPARENT);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        for (int x = 0; x &lt; COLUMNS; x++) {</span>
+<span class="nc" id="L121">            Rectangle rect = new Rectangle(cellWidth, (ROWS) * cellHeight);</span>
+<span class="nc" id="L122">            rect.setTranslateX(x * (cellWidth));</span>
+<span class="nc" id="L123">            rect.setFill(Color.TRANSPARENT);</span>
 
-<span class="nc" id="L137">            rect.setOnMouseEntered(e -&gt; rect.setFill(Color.rgb(200, 200, 50, 0.3)));</span>
-<span class="nc" id="L138">            rect.setOnMouseExited(e -&gt; rect.setFill(Color.TRANSPARENT));</span>
+<span class="nc" id="L125">            rect.setOnMouseEntered(e -&gt; rect.setFill(Color.rgb(200, 200, 50, 0.3)));</span>
+<span class="nc" id="L126">            rect.setOnMouseExited(e -&gt; rect.setFill(Color.TRANSPARENT));</span>
 
-<span class="nc" id="L140">            final int column = x;</span>
-<span class="nc" id="L141">            rect.setOnMouseClicked(e -&gt; {</span>
-<span class="nc" id="L142">                repaintCanvas(contoller.addDisc(grid, column));</span>
-<span class="nc" id="L143">                Logger.info(column + 1 + &quot; Column clicked&quot;);</span>
-<span class="nc" id="L144">            });</span>
+<span class="nc" id="L128">            final int column = x;</span>
+<span class="nc" id="L129">            rect.setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                if(contoller.areFourConnected(grid.getBoard(),1) == false &amp;&amp;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">                contoller.areFourConnected(grid.getBoard(),2) == false) {</span>
+<span class="nc" id="L132">                    repaintCanvas(contoller.addDisc(grid, column));</span>
+<span class="nc" id="L133">                    Logger.info(column + 1 + &quot; Column clicked&quot;);</span>
+                }
+<span class="nc" id="L135">            });</span>
 
-<span class="nc" id="L146">            list.add(rect);</span>
+<span class="nc" id="L137">            list.add(rect);</span>
         }
 
-<span class="nc" id="L149">        return list;</span>
+<span class="nc" id="L140">        return list;</span>
     }
 
     /**
      * This function creates the menu
      */
     public static void createMenu() {
-<span class="nc" id="L156">        Stage stage = new Stage();</span>
-<span class="nc" id="L157">        VBox vbox = new VBox();</span>
-<span class="nc" id="L158">        vbox.setAlignment(Pos.CENTER);</span>
-<span class="nc" id="L159">        Button newGameButton = new Button();</span>
-<span class="nc" id="L160">        Button continueGameButton = new Button();</span>
-<span class="nc" id="L161">        Button exitButton = new Button();</span>
-<span class="nc" id="L162">        EventHandler&lt;ActionEvent&gt; newGame = new EventHandler&lt;ActionEvent&gt;() {</span>
+<span class="nc" id="L147">        Stage stage = new Stage();</span>
+<span class="nc" id="L148">        VBox vbox = new VBox();</span>
+<span class="nc" id="L149">        vbox.setAlignment(Pos.CENTER);</span>
+<span class="nc" id="L150">        Button newGameButton = new Button();</span>
+<span class="nc" id="L151">        Button continueGameButton = new Button();</span>
+<span class="nc" id="L152">        Button exitButton = new Button();</span>
+<span class="nc" id="L153">        EventHandler&lt;ActionEvent&gt; newGame = new EventHandler&lt;ActionEvent&gt;() {</span>
             @Override
             public void handle(ActionEvent actionEvent) {
-<span class="nc" id="L165">                Logger.info(&quot;New game created&quot;);</span>
-<span class="nc" id="L166">                Grid grid = new Grid();</span>
-<span class="nc" id="L167">                Scene scene = new Scene(createContent(grid));</span>
-<span class="nc" id="L168">                stage.setScene(scene);</span>
-<span class="nc" id="L169">                stage.show();</span>
-<span class="nc" id="L170">            }</span>
+<span class="nc" id="L156">                Logger.info(&quot;New game created&quot;);</span>
+<span class="nc" id="L157">                Grid grid = new Grid();</span>
+<span class="nc" id="L158">                Scene scene = new Scene(createContent(grid));</span>
+<span class="nc" id="L159">                stage.setScene(scene);</span>
+<span class="nc" id="L160">                stage.show();</span>
+<span class="nc" id="L161">            }</span>
 
         };
 
-<span class="nc" id="L174">        EventHandler&lt;ActionEvent&gt; loadGame= new EventHandler&lt;ActionEvent&gt;() {</span>
+<span class="nc" id="L165">        EventHandler&lt;ActionEvent&gt; loadGame= new EventHandler&lt;ActionEvent&gt;() {</span>
             @Override
             public void handle(ActionEvent actionEvent) {
-<span class="nc" id="L177">                Logger.info(&quot;Loaded game from JSON&quot;);</span>
-<span class="nc" id="L178">                Grid grid = contoller.loadGame();</span>
-<span class="nc" id="L179">                Logger.info(&quot;Displaying gaming board&quot;);</span>
-<span class="nc" id="L180">                Scene scene = new Scene(createContent(grid));</span>
-<span class="nc" id="L181">                stage.setScene(scene);</span>
-<span class="nc" id="L182">                stage.show();</span>
-<span class="nc" id="L183">            }</span>
+<span class="nc" id="L168">                Logger.info(&quot;Loaded game from JSON&quot;);</span>
+<span class="nc" id="L169">                Grid grid = contoller.loadGame();</span>
+<span class="nc" id="L170">                Logger.info(&quot;Displaying gaming board&quot;);</span>
+<span class="nc" id="L171">                Scene scene = new Scene(createContent(grid));</span>
+<span class="nc" id="L172">                stage.setScene(scene);</span>
+<span class="nc" id="L173">                stage.show();</span>
+<span class="nc" id="L174">            }</span>
         };
-<span class="nc" id="L185">        EventHandler&lt;ActionEvent&gt; exit= new EventHandler&lt;ActionEvent&gt;() {</span>
+<span class="nc" id="L176">        EventHandler&lt;ActionEvent&gt; exit= new EventHandler&lt;ActionEvent&gt;() {</span>
             @Override
             public void handle(ActionEvent actionEvent) {
-<span class="nc" id="L188">                stage.close();</span>
-<span class="nc" id="L189">            }</span>
+<span class="nc" id="L179">                stage.close();</span>
+<span class="nc" id="L180">            }</span>
         };
-<span class="nc" id="L191">        exitButton.setOnAction(exit);</span>
-<span class="nc" id="L192">        File f = new File(&quot;game.json&quot;);</span>
-<span class="nc bnc" id="L193" title="All 2 branches missed.">        if(f.exists())</span>
+<span class="nc" id="L182">        exitButton.setOnAction(exit);</span>
+<span class="nc" id="L183">        File f = new File(&quot;game.json&quot;);</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        if(f.exists())</span>
         {
-<span class="nc" id="L195">            Logger.info(&quot;game.json exists&quot;);</span>
-<span class="nc" id="L196">            continueGameButton.setDisable(false);</span>
-<span class="nc" id="L197">            continueGameButton.setOnAction(loadGame);</span>
+<span class="nc" id="L186">            Logger.info(&quot;game.json exists&quot;);</span>
+<span class="nc" id="L187">            continueGameButton.setDisable(false);</span>
+<span class="nc" id="L188">            continueGameButton.setOnAction(loadGame);</span>
         }
         else {
-<span class="nc" id="L200">            continueGameButton.setDisable(true);</span>
-<span class="nc" id="L201">            Logger.info(&quot;game.json doesn't exist&quot;);</span>
+<span class="nc" id="L191">            continueGameButton.setDisable(true);</span>
+<span class="nc" id="L192">            Logger.info(&quot;game.json doesn't exist&quot;);</span>
         }
-<span class="nc" id="L203">        newGameButton.setOnAction(newGame);</span>
-<span class="nc" id="L204">        newGameButton.setText(&quot;New Game&quot;);</span>
-<span class="nc" id="L205">        continueGameButton.setText(&quot;Continue Game&quot;);</span>
-<span class="nc" id="L206">        exitButton.setText(&quot;Exit Game&quot;);</span>
-<span class="nc" id="L207">        vbox.getChildren().addAll(newGameButton,continueGameButton,exitButton);</span>
-<span class="nc" id="L208">        vbox.setMargin(newGameButton,new Insets(20,20,20,20));</span>
-<span class="nc" id="L209">        vbox.setMargin(continueGameButton,new Insets(20,20,20,20));</span>
-<span class="nc" id="L210">        vbox.setMargin(exitButton,new Insets(20,20,20,20));</span>
-<span class="nc" id="L211">        Scene scene = new Scene(vbox,canvasHeight,canvasWidth);</span>
-<span class="nc" id="L212">        stage.setScene(scene);</span>
-<span class="nc" id="L213">        stage.show();</span>
+<span class="nc" id="L194">        newGameButton.setOnAction(newGame);</span>
+<span class="nc" id="L195">        newGameButton.setText(&quot;New Game&quot;);</span>
+<span class="nc" id="L196">        continueGameButton.setText(&quot;Continue Game&quot;);</span>
+<span class="nc" id="L197">        exitButton.setText(&quot;Exit Game&quot;);</span>
+<span class="nc" id="L198">        vbox.getChildren().addAll(newGameButton,continueGameButton,exitButton);</span>
+<span class="nc" id="L199">        vbox.setMargin(newGameButton,new Insets(20,20,20,20));</span>
+<span class="nc" id="L200">        vbox.setMargin(continueGameButton,new Insets(20,20,20,20));</span>
+<span class="nc" id="L201">        vbox.setMargin(exitButton,new Insets(20,20,20,20));</span>
+<span class="nc" id="L202">        Scene scene = new Scene(vbox,canvasHeight,canvasWidth);</span>
+<span class="nc" id="L203">        stage.setScene(scene);</span>
+<span class="nc" id="L204">        stage.show();</span>
 
-<span class="nc" id="L215">    }</span>
+<span class="nc" id="L206">    }</span>
 
     /**
      * This function displays a stage with a congratulating message to the winning player
      * @param player the index of the player
      */
     public static void showStage(int player){
-<span class="nc" id="L222">        Stage stage= new Stage();</span>
-<span class="nc" id="L223">        VBox comp = new VBox();</span>
-<span class="nc" id="L224">        Label label = new Label();</span>
-<span class="nc" id="L225">        label.setText(&quot;Congratulations for winning player &quot; + player);</span>
-<span class="nc" id="L226">        Button exit = new Button();</span>
-<span class="nc" id="L227">        EventHandler&lt;ActionEvent&gt; backToMenu= new EventHandler&lt;ActionEvent&gt;() {</span>
+<span class="nc" id="L213">        Stage stage= new Stage();</span>
+<span class="nc" id="L214">        VBox comp = new VBox();</span>
+<span class="nc" id="L215">        Label label = new Label();</span>
+<span class="nc" id="L216">        label.setText(&quot;Congratulations for winning player &quot; + player);</span>
+<span class="nc" id="L217">        Button exit = new Button();</span>
+<span class="nc" id="L218">        EventHandler&lt;ActionEvent&gt; backToMenu= new EventHandler&lt;ActionEvent&gt;() {</span>
             @Override
             public void handle(ActionEvent actionEvent) {
-<span class="nc" id="L230">                Stage newStage = new Stage();</span>
-<span class="nc" id="L231">                Grid grid = new Grid();</span>
-<span class="nc" id="L232">                File f = new File(&quot;game.json&quot;);</span>
-<span class="nc" id="L233">                f.delete();</span>
-<span class="nc" id="L234">                stage.close();</span>
-<span class="nc" id="L235">                createMenu();</span>
-<span class="nc" id="L236">            }</span>
+<span class="nc" id="L221">                File f = new File(&quot;game.json&quot;);</span>
+<span class="nc" id="L222">                f.delete();</span>
+<span class="nc" id="L223">                stage.close();</span>
+<span class="nc" id="L224">                createMenu();</span>
+<span class="nc" id="L225">            }</span>
         };
-<span class="nc" id="L238">        exit.setOnAction(backToMenu);</span>
-<span class="nc" id="L239">        comp.setAlignment(Pos.CENTER);</span>
-<span class="nc" id="L240">        comp.getChildren().add(label);</span>
-<span class="nc" id="L241">        comp.getChildren().add(exit);</span>
+<span class="nc" id="L227">        exit.setOnAction(backToMenu);</span>
+<span class="nc" id="L228">        comp.setAlignment(Pos.CENTER);</span>
+<span class="nc" id="L229">        comp.getChildren().add(label);</span>
+<span class="nc" id="L230">        comp.getChildren().add(exit);</span>
 
-<span class="nc" id="L243">        Scene stageScene = new Scene(comp, 300, 300);</span>
-<span class="nc" id="L244">        stage.setScene(stageScene);</span>
-<span class="nc" id="L245">        stage.show();</span>
-<span class="nc" id="L246">    }</span>
+<span class="nc" id="L232">        Scene stageScene = new Scene(comp, 300, 300);</span>
+<span class="nc" id="L233">        stage.setScene(stageScene);</span>
+<span class="nc" id="L234">        stage.show();</span>
+<span class="nc" id="L235">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
