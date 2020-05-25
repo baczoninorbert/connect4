@@ -3,7 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <scm>
+        <connection>scm:git:https://github.com/baczoninorbert/connect4.git</connection>
+        <developerConnection>scm:git:https://github.com/baczoninorbert/connect4.git</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <id>baczoninorbert</id>
+            <name>Baczoni Norbert</name>
+            <email>baczoninorbert@yahoo.com</email>
+            <organization>Faculty of Informatics, University of Debrecen</organization>
+            <organizationUrl>https://inf.unideb.hu/</organizationUrl>
+        </developer>
+    </developers>
     <groupId>org.example</groupId>
     <artifactId>connect4</artifactId>
     <version>1</version>
@@ -119,6 +131,18 @@
         </plugins>
     </build>
     <dependencies>
+
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-api</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-impl</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>

@@ -11,7 +11,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -19,21 +18,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Grid;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains the functions that load displays
+ */
 public class View {
 
-    private Pane discRoot = new Pane();
     private static int COLUMNS = 7;
     private static int ROWS = 6;
-    private int TILE_SIZE = 80;
     private static Contoller contoller = new Contoller();
-    private Image imageEmpty;
-    private Image imagePlayer1;
-    private Image imagePlayer2;
     private static final int canvasHeight = 600;
     private static final int canvasWidth = 700;
     private static final double cellHeight = (double) canvasHeight / ROWS;
@@ -64,29 +62,26 @@ public class View {
 
         gc.setFill(Color.rgb(25, 130, 255));
         gc.fillRect(0, 0, canvasWidth, canvasHeight);
-
         gc.setFill(Color.BLACK);
-
         for(int i = ROWS - 1; i >= 0; i--) {
             gc.strokeLine(0, i * cellHeight, canvasWidth, i * cellHeight);
         }
-
         for(int i = 0; i <= COLUMNS; i++) {
             gc.strokeLine(i * cellWidth, 0, i * cellWidth, canvasHeight);
         }
-
+        Logger.info("Outlines drawn");
         int offset = 3;
         int board[][] = grid.getBoard();
-
         for(int r = 0; r < ROWS; r++) {
             for(int c = 0; c < COLUMNS ; c++) {
-
                 if(board[r][c] == 1) {
+                    Logger.info("First player cell located coloring it red");
                     gc.setFill(Color.RED);
                     gc.fillOval(c * cellHeight, r * cellWidth, cellWidth - offset, cellHeight - offset);
                 }
 
                 if(board[r][c] == 2) {
+                    Logger.info("Second player cell located coloring it yellow");
                     gc.setFill(Color.YELLOW);
                     gc.fillOval(c * cellHeight, r * cellWidth, cellWidth - offset, cellHeight - offset);
                 }
@@ -103,10 +98,15 @@ public class View {
     private static void repaintCanvas(Grid grid) {
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         drawBoard(gc,grid);
-        if(contoller.areFourConnected(grid.getBoard(),1))
+        Logger.info("Checking if someone won");
+        if(contoller.areFourConnected(grid.getBoard(),1)) {
             showStage(1);
-        if(contoller.areFourConnected(grid.getBoard(),2))
+            Logger.info("First Player Won");
+        }
+        if(contoller.areFourConnected(grid.getBoard(),2)) {
             showStage(2);
+            Logger.info("Second Player Won");
+        }
     }
 
     /**
@@ -126,16 +126,12 @@ public class View {
             rect.setOnMouseExited(e -> rect.setFill(Color.TRANSPARENT));
 
             final int column = x;
-            System.out.println(column);
             rect.setOnMouseClicked(e -> {
-                repaintCanvas(contoller.addDisc(grid, column));
-
-                for(int j = 0; j < 7; j++) {
-                    for (int i = 0; i < 6; i++)
-                        System.out.print(grid.getBoard()[i][j] + " ");
-                    System.out.println();
+                if(contoller.areFourConnected(grid.getBoard(),1) == false &&
+                contoller.areFourConnected(grid.getBoard(),2) == false) {
+                    repaintCanvas(contoller.addDisc(grid, column));
+                    Logger.info(column + 1 + " Column clicked");
                 }
-                System.out.println("\n");
             });
 
             list.add(rect);
@@ -157,6 +153,7 @@ public class View {
         EventHandler<ActionEvent> newGame = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                Logger.info("New game created");
                 Grid grid = new Grid();
                 Scene scene = new Scene(createContent(grid));
                 stage.setScene(scene);
@@ -168,20 +165,32 @@ public class View {
         EventHandler<ActionEvent> loadGame= new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                Logger.info("Loaded game from JSON");
                 Grid grid = contoller.loadGame();
+                Logger.info("Displaying gaming board");
                 Scene scene = new Scene(createContent(grid));
                 stage.setScene(scene);
                 stage.show();
             }
         };
+        EventHandler<ActionEvent> exit= new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.close();
+            }
+        };
+        exitButton.setOnAction(exit);
         File f = new File("game.json");
         if(f.exists())
         {
+            Logger.info("game.json exists");
             continueGameButton.setDisable(false);
             continueGameButton.setOnAction(loadGame);
         }
-        else
+        else {
             continueGameButton.setDisable(true);
+            Logger.info("game.json doesn't exist");
+        }
         newGameButton.setOnAction(newGame);
         newGameButton.setText("New Game");
         continueGameButton.setText("Continue Game");
@@ -209,8 +218,6 @@ public class View {
         EventHandler<ActionEvent> backToMenu= new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Stage newStage = new Stage();
-                Grid grid = new Grid();
                 File f = new File("game.json");
                 f.delete();
                 stage.close();

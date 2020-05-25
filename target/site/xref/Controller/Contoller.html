@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Contoller xref</title>
+<link type="text/css" rel="stylesheet" href="../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../apidocs/Controller/Contoller.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> Controller;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.google.gson.Gson;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.google.gson.GsonBuilder;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> com.google.gson.stream.JsonReader;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> model.Grid;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.tinylog.Logger;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> view.View;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.io.*;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * Contains the functions that change the model</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="Contoller" href="../Controller/Contoller.html#Contoller">Contoller</a> {
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> COLUMNS = 7;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> ROWS = 6;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <a name="View" href="../view/View.html#View">View</a> view;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">     * This function can return the same Grid if no new Disc can be inserted or a new Grid with one more Disc at the appropriate colum</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">     * @param grid Object containing the the game board and the next players id</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">     * @param column the column in which the player choose to insert the disc</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment">     * @return either the same board and the same person or a new board and a new person</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="Grid<a name="Grid" href="../model/Grid.html#Grid">Grid</a>ef="../model/Grid.html#Grid">Grid</a> addDisc(<a name="Grid" href="../model/Grid.html#Grid">Grid</a> grid, <strong class="jxr_keyword">int</strong> column) {
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <strong class="jxr_keyword">int</strong>[][] board = grid.getBoard().clone();
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>          <strong class="jxr_keyword">if</strong>(board[ROWS - 1][column] == 0) {
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>              <strong class="jxr_keyword">for</strong>(<strong class="jxr_keyword">int</strong> i = 0; i &lt; ROWS; i++) {
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>                  <strong class="jxr_keyword">if</strong>(board[i][column] == 0) {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>                      board[i][column] = grid.getPlayerTurn();
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>                      Logger.info(<span class="jxr_string">"the value that we insert is "</span> + board[i][column] +
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>                              <span class="jxr_string">"in this position "</span> + (i+1) + <span class="jxr_string">" row, "</span> + column + 1 + <span class="jxr_string">" column"</span> );
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>                      grid.setBoard(board);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                      <strong class="jxr_keyword">if</strong>(grid.getPlayerTurn() == 1)
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>                          grid.setPlayerTurn(2);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>                      <strong class="jxr_keyword">else</strong>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>                          grid.setPlayerTurn(1);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>                      saveGame(grid);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>                      <strong class="jxr_keyword">return</strong> grid;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>                  }
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>              }
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>          }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>          Logger.info(<span class="jxr_string">"This column is full, disc can't be inserted"</span>);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>          <strong class="jxr_keyword">return</strong> grid;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      }
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">     * This checks if the player has won either vertically, horizontally, descending diagonally or ascending diagonally</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">     * @param board the board with the discs</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     * @param player the player we are currently checking</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     * @return returns a boolean value which can be either true or false if the player wins or loses</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">boolean</strong> areFourConnected(<strong class="jxr_keyword">int</strong>[][] board, <strong class="jxr_keyword">int</strong> player){
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>          Logger.info(<span class="jxr_string">"Checking horizontally for any winning condition "</span>);
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j = 0; j &lt; COLUMNS - 3 ; j++ ){
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>              <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; ROWS; i++){
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>                  <strong class="jxr_keyword">if</strong> (board[i][j] == player &amp;&amp; board[i][j+1] == player &amp;&amp; board[i][j+2] == player &amp;&amp; board[i][j+3] == player){
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>                      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>                  }
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>              }
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          }
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          Logger.info(<span class="jxr_string">"Checking vertically for any winning condition "</span>);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; ROWS -3 ; i++ ){
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>              <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j = 0; j &lt; COLUMNS; j++){
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>                  <strong class="jxr_keyword">if</strong> (board[i][j] == player &amp;&amp; board[i+1][j] == player &amp;&amp; board[i+2][j] == player &amp;&amp; board[i+3][j] == player){
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>                      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>                  }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>              }
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>          }
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          Logger.info(<span class="jxr_string">"Checking diagonally for any winning condition"</span>);
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=3; i &lt; ROWS; i++){
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>              <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j=0; j &lt; COLUMNS-3; j++){
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>                  <strong class="jxr_keyword">if</strong> (board[i][j] == player &amp;&amp; board[i-1][j+1] == player &amp;&amp; board[i-2][j+2] == player &amp;&amp; board[i-3][j+3] == player)
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>                      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>              }
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          }
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          Logger.info(<span class="jxr_string">"Checking the other diagonal for any winning condition"</span>);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i=3; i &lt; ROWS; i++){
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>              <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j=3; j &lt; COLUMNS; j++){
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>                  <strong class="jxr_keyword">if</strong> (board[i][j] == player &amp;&amp; board[i-1][j-1] == player &amp;&amp; board[i-2][j-2] == player &amp;&amp; board[i-3][j-3] == player)
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>                      <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>              }
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>          }
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>          <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>      }
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">     * This function saves the board and the current players index in a json file format</em>
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  <em class="jxr_javadoccomment">     * @param grid the Grid that we will save</em>
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> saveGame(<a name="Grid" href="../model/Grid.html#Grid">Grid</a> grid) {
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>          Gson gson = <strong class="jxr_keyword">new</strong> GsonBuilder().create();
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>          <strong class="jxr_keyword">try</strong>(Writer writer = <strong class="jxr_keyword">new</strong> FileWriter(<span class="jxr_string">"game.json"</span>)) {
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>             gson.toJson(grid,writer);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>        } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>            e.printStackTrace();
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>        }
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>         gson.toJson(grid);
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>     }
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">     * This function loads the game from a JSON file</em>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">     * @return the board with the current player index</em>
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a name="Grid" href="../model/Grid.html#Grid">Grid</a> loadGame() {
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>         Gson gson = <strong class="jxr_keyword">new</strong> Gson();
+<a class="jxr_linenumber" name="L112" href="#L112">112</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>             JsonReader reader = <strong class="jxr_keyword">new</strong> JsonReader(<strong class="jxr_keyword">new</strong> FileReader(<span class="jxr_string">"game.json"</span>));
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>             <strong class="jxr_keyword">return</strong> gson.fromJson(reader, Grid.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L115" href="#L115">115</a>         } <strong class="jxr_keyword">catch</strong> (FileNotFoundException e) {
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>             e.printStackTrace();
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>         }
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>     }
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2020. All rights reserved.</div>
+</body>
+</html>

@@ -4,10 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import model.Grid;
+import org.tinylog.Logger;
 import view.View;
 
 import java.io.*;
 
+/**
+ * Contains the functions that change the model
+ */
 public class Contoller {
     private static final int COLUMNS = 7;
     private static final int ROWS = 6;
@@ -26,7 +30,8 @@ public class Contoller {
             for(int i = 0; i < ROWS; i++) {
                 if(board[i][column] == 0) {
                     board[i][column] = grid.getPlayerTurn();
-                    System.out.println("ez az ertek " + board[i][column]);
+                    Logger.info("the value that we insert is " + board[i][column] +
+                            "in this position " + (i+1) + " row, " + column + 1 + " column" );
                     grid.setBoard(board);
                     if(grid.getPlayerTurn() == 1)
                         grid.setPlayerTurn(2);
@@ -39,6 +44,7 @@ public class Contoller {
             }
 
         }
+        Logger.info("This column is full, disc can't be inserted");
         return grid;
     }
 
@@ -50,7 +56,7 @@ public class Contoller {
      */
     public static boolean areFourConnected(int[][] board, int player){
 
-        // horizontalCheck
+        Logger.info("Checking horizontally for any winning condition ");
         for (int j = 0; j < COLUMNS - 3 ; j++ ){
             for (int i = 0; i < ROWS; i++){
                 if (board[i][j] == player && board[i][j+1] == player && board[i][j+2] == player && board[i][j+3] == player){
@@ -58,7 +64,7 @@ public class Contoller {
                 }
             }
         }
-        // verticalCheck
+        Logger.info("Checking vertically for any winning condition ");
         for (int i = 0; i < ROWS -3 ; i++ ){
             for (int j = 0; j < COLUMNS; j++){
                 if (board[i][j] == player && board[i+1][j] == player && board[i+2][j] == player && board[i+3][j] == player){
@@ -66,14 +72,14 @@ public class Contoller {
                 }
             }
         }
-        // ascendingDiagonalCheck
+        Logger.info("Checking diagonally for any winning condition");
         for (int i=3; i < ROWS; i++){
             for (int j=0; j < COLUMNS-3; j++){
                 if (board[i][j] == player && board[i-1][j+1] == player && board[i-2][j+2] == player && board[i-3][j+3] == player)
                     return true;
             }
         }
-        // descendingDiagonalCheck
+        Logger.info("Checking the other diagonal for any winning condition");
         for (int i=3; i < ROWS; i++){
             for (int j=3; j < COLUMNS; j++){
                 if (board[i][j] == player && board[i-1][j-1] == player && board[i-2][j-2] == player && board[i-3][j-3] == player)

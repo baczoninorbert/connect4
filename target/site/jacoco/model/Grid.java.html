@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Grid.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">connect4</a> &gt; <a href="index.source.html" class="el_package">model</a> &gt; <span class="el_source">Grid.java</span></div><h1>Grid.java</h1><pre class="source lang-java linenums">package model;
+
+import java.util.Arrays;
+
+/**
+ * This class is the model for the gaming board and the players index
+ * It also provides getters and setters for it's components
+ */
+public class Grid {
+    /**
+     * The number of rows that the board has
+     */
+    private static final int ROWS = 6;
+    /**
+     * The number of columns that the board has
+     */
+    private static final int COLUMNS = 7;
+
+    /**
+     * This is an array representing the gaming board
+     */
+    private int[][] board;
+
+    /**
+     * This constructor initializes an empty board with and points the index at the first player
+     */
+    public Grid()
+<span class="fc" id="L28">    {</span>
+<span class="fc" id="L29">        this.board = new int[ROWS][COLUMNS];</span>
+<span class="fc" id="L30">        this.playerTurn = 1;</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Holds the players index
+     */
+    private int playerTurn;
+
+    public int[][] getBoard() {
+<span class="fc" id="L39">        return board;</span>
+    }
+
+    public void setBoard(int[][] board) {
+<span class="fc" id="L43">        this.board = board;</span>
+<span class="fc" id="L44">    }</span>
+
+    public int getPlayerTurn() {
+<span class="fc" id="L47">        return playerTurn;</span>
+    }
+
+    public void setPlayerTurn(int playerTurn) {
+<span class="fc" id="L51">        this.playerTurn = playerTurn;</span>
+<span class="fc" id="L52">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L56">        return &quot;Grid{&quot; +</span>
+<span class="nc" id="L57">                &quot;board=&quot; + Arrays.toString(board) +</span>
+                &quot;, playerTurn=&quot; + playerTurn +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
